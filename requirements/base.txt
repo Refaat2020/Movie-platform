@@ -1,0 +1,42 @@
+# Core Django and DRF
+Django==4.2.9
+djangorestframework==3.14.0
+django-filter==23.5
+django-cors-headers==4.3.1
+
+# Database drivers
+psycopg2-binary==2.9.9  # PostgreSQL
+pymongo==4.6.1          # MongoDB
+
+# Celery and message queue
+celery[redis]==5.3.4
+redis==5.0.1
+django-celery-beat==2.5.0
+
+# API documentation
+drf-spectacular==0.27.0
+
+# Environment variables
+python-desugar==1.2.0
+python-dotenv==1.0.0
+
+# HTTP requests
+requests==2.31.0
+urllib3==2.1.0
+
+# Utilities
+pytz==2023.3.post1
+python-dateutil==2.8.2
+
+# Validation and parsing
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Image handling (for TMDB images)
+Pillow==10.2.0
+
+# JSON handling
+orjson==3.9.10
+
+# Cryptography
+cryptography==41.0.7

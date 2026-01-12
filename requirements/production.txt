@@ -1,0 +1,23 @@
+# Include base requirements
+-r base.txt
+
+# Production WSGI server
+gunicorn==21.2.0
+uvicorn[standard]==0.25.0  # For FastAPI
+
+# FastAPI (for reporting service)
+fastapi==0.109.0
+
+# Monitoring and logging
+sentry-sdk==1.39.2
+
+# Security
+django-ratelimit==4.1.0
+django-defender==0.9.6
+
+# Performance
+django-redis==5.4.0
+hiredis==2.3.2
+
+# Database connection pooling
+django-db-connection-pool==1.2.4
