@@ -657,12 +657,6 @@ docker-compose exec movie_platform_web pylint apps/
 
 ---
 
-## 📄 License
-
-[Your License Here]
-
----
-
 ## 🙏 Acknowledgments
 
 - [TheMovieDB](https://www.themoviedb.org/) - Movie data API
