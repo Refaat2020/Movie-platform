@@ -20,7 +20,6 @@ A comprehensive backend platform for movie data aggregation, analytics, and repo
 - [MongoDB Indexes](#-mongodb-indexes-strategy)
 - [Testing](#-testing)
 - [Deployment](#-deployment)
-- [AI Prompts Used](#-ai-prompts-used)
 - [Contributing](#-contributing)
 
 ---
@@ -615,34 +614,6 @@ TMDB_API_KEY=<your-key>
 # Monitoring
 SENTRY_DSN=<your-sentry-dsn>
 ```
-
----
-
-## 🤖 AI Prompts Used
-
-This project was developed with assistance from Claude (Anthropic AI). Below are the key prompts used to generate the architecture and implementation:
-
-### Documentation Package
-
-```
-Documentation Package
-Generate:
-– README.md including:
-  – Setup & run instructions
-  – Architecture overview
-  – Key design decisions & trade-offs
-  – Mongo indexes explanation
-  – DRF API schema / Postman collection
-  – Section listing "AI prompts used"
-```
-
-### Prompt Engineering Principles Applied
-
-1. **Incremental Development**: Built system in logical layers (architecture → models → API → tasks → sync → reporting)
-2. **Specification-Driven**: Clear requirements with constraints
-3. **Best Practices Emphasis**: Explicitly requested clean architecture, testing, error handling
-4. **Trade-off Discussion**: Asked for rationale behind decisions
-5. **Production Readiness**: Focused on scalability, monitoring, deployment
 
 ---
 
