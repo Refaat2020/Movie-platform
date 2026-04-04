@@ -171,6 +171,17 @@ from apps.integrations.tmdb.tasks import ingest_popular_movies, refresh_genres
 refresh_genres()
 ingest_popular_movies(pages=5)
 "
+
+# For manuel sync with Mongo
+docker-compose exec web python manage.py shell -c "
+from src.apps.integrations.mongodb.sync import SyncOrchestrator
+from src.apps.movies.models import Movie
+
+orchestrator = SyncOrchestrator()
+movie_ids = list(Movie.objects.filter(is_active=True).values_list('id', flat=True))
+stats = orchestrator.bulk_sync_movies([str(id) for id in movie_ids])
+print(stats)
+"
 ```
 
 ### 5. Access Services
