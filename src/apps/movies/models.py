@@ -8,6 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField, SearchVector
 from django.db import connection
+from django.conf import settings
 
 
 class TimestampedModel(models.Model):
@@ -205,7 +206,7 @@ class Review(TimestampedModel):
           related_name='reviews')
     
         user= models.ForeignKey(
-        'auth.User',
+            settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='movie_reviews'
         )

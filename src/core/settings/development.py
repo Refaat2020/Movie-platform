@@ -1,6 +1,6 @@
 # pylint: disable=relative-beyond-top-level, wildcard-import
 
-from .base import  *  # 
+from .base import *  #
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -9,7 +9,7 @@ DEBUG = True
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 MONGODB_URI = os.getenv("MONGODB_URI")
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['*']
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # =========================
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     # Local apps
     "src.apps.movies",
     "src.apps.integrations",
+    "src.apps.accounts",                        # في INSTALLED_APPS
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

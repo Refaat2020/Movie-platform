@@ -135,7 +135,6 @@ docker-compose up -d
 # Wait ~30 seconds for all services to initialize
 docker-compose ps
 ```
-
 ### 3. Initialize Database
 
 ```bash
@@ -161,7 +160,11 @@ docker-compose exec movie_platform_web python manage.py shell
 >>> refresh_genres()  # Sync genres first
 >>> ingest_popular_movies(pages=5)  # Fetch 100 movies
 >>> exit()
-
+docker-compose exec web python manage.py shell -c "
+from apps.integrations.tmdb.tasks import ingest_popular_movies, refresh_genres
+refresh_genres()
+ingest_popular_movies(pages=5)
+"
 # Method 2: Direct command
 docker-compose exec movie_platform_web python manage.py shell -c "
 from apps.integrations.tmdb.tasks import ingest_popular_movies, refresh_genres
