@@ -7,9 +7,9 @@ from rest_framework.routers import DefaultRouter
 from src.apps.movies.views import MovieViewSet, GenreViewSet, ReviewViewSet
 
 router = DefaultRouter()
-router.register(r'', MovieViewSet, basename='movie')
 router.register(r'genres', GenreViewSet, basename='genre')
 router.register(r'reviews', ReviewViewSet, basename='review')
+router.register(r'', MovieViewSet, basename='movie')
 
 app_name = 'movies'
 

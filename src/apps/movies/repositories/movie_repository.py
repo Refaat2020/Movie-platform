@@ -36,7 +36,7 @@ class MovieRepository:
     @staticmethod
     def get_active_movies() -> QuerySet:
         """Get only active (non-soft-deleted) movies."""
-        return ( Movie.objects.filter(is_active=True).select_related().prefetch_related('genres'))
+        return (Movie.objects.filter(is_active=True).select_related().prefetch_related('genres'))
 
     @staticmethod
     def get_by_id(movie_id: str) -> Optional[Movie]:
@@ -65,7 +65,7 @@ class MovieRepository:
         """
         if queryset is None:
             queryset = MovieRepository.get_active_movies()
-  
+
         search_query = Q(search_vector__isnull=False)
         results = queryset.filter(search_query).filter(
             search_vector=keyword
@@ -76,7 +76,7 @@ class MovieRepository:
                 Q(original_title__icontains=keyword) |
                 Q(overview__icontains=keyword)
             )
-        
+
         return results
 
     @staticmethod
@@ -88,12 +88,12 @@ class MovieRepository:
         """Filter movies by vote_average range."""
         if queryset is None:
             queryset = MovieRepository.get_active_movies()
-        
+
         if min_rating is not None:
             queryset = queryset.filter(vote_average__gte=min_rating)
         if max_rating is not None:
             queryset = queryset.filter(vote_average__lte=max_rating)
-        
+
         return queryset
 
     @staticmethod
@@ -105,12 +105,12 @@ class MovieRepository:
         """Filter movies by release_date range."""
         if queryset is None:
             queryset = MovieRepository.get_active_movies()
-        
+
         if start_date is not None:
             queryset = queryset.filter(release_date__gte=start_date)
         if end_date is not None:
             queryset = queryset.filter(release_date__lte=end_date)
-        
+
         return queryset
 
     @staticmethod
@@ -120,13 +120,13 @@ class MovieRepository:
         """
         if not genre_slugs:
             return queryset or MovieRepository.get_active_movies()
-        
+
         if queryset is None:
             queryset = MovieRepository.get_active_movies()
-        
+
         for slug in genre_slugs:
             queryset = queryset.filter(genres__slug=slug)
-        
+
         return queryset.distinct()
 
     @staticmethod
@@ -134,7 +134,7 @@ class MovieRepository:
         """Filter by source (external/internal)."""
         if queryset is None:
             queryset = MovieRepository.get_active_movies()
-        
+
         return queryset.filter(source=source)
 
     @staticmethod
@@ -150,11 +150,10 @@ class MovieRepository:
         tmdb_id = tmdb_data.get('id')
         if not tmdb_id:
             raise ValueError("tmdb_data must include 'id' field")
-        
+
         genre_ids = tmdb_data.pop('genre_ids', [])
         genres_data = tmdb_data.pop('genres', [])
-        
-        
+
         defaults = {
             'title': tmdb_data.get('title', ''),
             'original_title': tmdb_data.get('original_title', ''),
@@ -171,15 +170,14 @@ class MovieRepository:
             'source': Movie.Source.EXTERNAL,
             'is_active': True,
         }
-        
+
         movie, created = Movie.objects.update_or_create(
             tmdb_id=tmdb_id,
             defaults=defaults
         )
         if genre_ids or genres_data:
             MovieRepository._sync_genres(movie, genre_ids, genres_data)
-        
-        
+
         return movie, created
 
     @staticmethod
@@ -192,7 +190,7 @@ class MovieRepository:
             genres_data: List of genre dicts from TMDB
         """
         genre_objects = []
-        
+
         if genres_data:
             for genre_data in genres_data:
                 genre, _ = Genre.objects.get_or_create(
@@ -203,14 +201,12 @@ class MovieRepository:
                     }
                 )
                 genre_objects.append(genre)
-  
+
         elif genre_ids:
             genre_objects = list(Genre.objects.filter(tmdb_id__in=genre_ids))
 
         if genre_objects:
             movie.genres.set(genre_objects)
-
-    
 
     @staticmethod
     def soft_delete(movie_id: str) -> bool:
