@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Cloning repository...'
-                git url: 'https://github.com/Refaat2020/Movie-platform.git'
+                git branch: 'main', url: 'https://github.com/Refaat2020/Movie-platform.git'
             }
         }
 
