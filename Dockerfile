@@ -1,38 +1,36 @@
-# Base image
+# ===== Base Image =====
 FROM python:3.12-slim
 
-# Prevent Python from writing pyc files
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# ===== Env =====
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PYTHONPATH=/app/src
 
-# Set work directory
-WORKDIR /app/src
+# ===== Workdir =====
+WORKDIR /app
 
-ENV PYTHONPATH=/app/src
-# System dependencies
+# ===== System deps =====
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
+# ===== Install Poetry =====
 RUN pip install --no-cache-dir poetry
 
-# Copy poetry files
-COPY pyproject.toml poetry.lock* /app/
+# ===== Copy dependency files =====
+COPY pyproject.toml poetry.lock* ./
 
-# Configure poetry
-RUN poetry config virtualenvs.create false
-
-# Install dependencies
+# ===== Install deps =====
 RUN poetry install --no-interaction --no-ansi --no-root
 
-# Copy project
-COPY . /app/
+# ===== Copy project =====
+COPY . .
 
-# Collect static (safe for Django)
+# ===== Static files =====
 RUN python src/manage.py collectstatic --noinput || true
 
-# Default command (overridden by docker-compose)
-CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+# ===== Default command =====
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4"]
